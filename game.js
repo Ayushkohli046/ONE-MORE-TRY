@@ -46,6 +46,7 @@ const keys = {
 const obstacles = [];
 const coins =[];
 const shields = [];
+const particles = [];
 
 let hasShield=false;
 let shieldTimer = 0;
@@ -54,6 +55,8 @@ let obstacleTimer = 0;
 let gameOver = false;
 let score =0;
 let difficulty =1;
+let shakeTime = 0;
+let shakeStrength = 8;
 
 function drawBackground() {
     ctx.fillStyle = "#0d0d20";
@@ -120,6 +123,55 @@ function createCoin(){
     };
     coins.push(coin);
 }
+
+function createParticles(x,y){
+    for( let i =0; i<12; i++){
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 3 + 1;
+
+        particles.push({
+            x:x,
+            y:y,
+            dx: Math.cos(angle) * speed,
+            dy: Math.sin(angle) * speed,
+            size: Math.random() * 3 + 2,
+            life:30
+        });
+    }
+}
+function updateParticles(){
+    for(let i = particles.length -1; i >= 0; i--){
+        const particle = particles[i];
+        particle.x +=particle.dx;
+        particle.y += particle.dy;
+        particle.life--;
+        if(particle.life <= 0){
+            particles.splice(i,1);
+        }
+    }
+}
+function drawParticles(){
+    ctx.save();
+    for(let i = 0; i< particles.length; i++){
+        const particle = particles[i];
+        ctx.globalAlpha = particle.life / 30;
+        ctx.fillStyle = "#ffd166";
+        ctx.shadowColor = "#ffd166";
+        ctx.shadowBlur = 12;
+
+        ctx.beginPath();
+        ctx.arc(
+            particle.x,
+            particle.y,
+            particle.size,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
+    ctx.restore();
+}
+
 function drawCoins(){
     ctx.save();
     ctx.fillStyle = "#ffd166";
@@ -196,6 +248,7 @@ function moveCoins(){
         const dy = player.y - coin.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         if(distance < player.size + coin.size){
+            createParticles(coin.x, coin.y);
             coins.splice(i,1);
             score+=2;
         } else if(coin.y - coin.size > canvas.height){
@@ -237,6 +290,7 @@ function checkCollision(){
                 hasShield=false;
                 break;
             } else {
+                shakeTime = 12;
                 gameOver = true;
                 break;
             }
@@ -275,11 +329,13 @@ function restartGame(){
     obstacles.length = 0 ;
     coins.length = 0;
     shields.length =0 ;
+    particles.length=0;
     hasShield=false;
     shieldTimer = 0;
     shieldActive = false;
     obstacleTimer = 0;
     score=0;
+    shakeTime =0;
     difficulty = 1;
     gameOver= false;
     keys.left = false;
@@ -291,12 +347,24 @@ function restartGame(){
 }
 
 function gameLoop(){
+    ctx.save();
+    if(shakeTime > 0){
+        const intensity = (shakeTime / 12) * shakeStrength;
+
+        const shakeX = (Math.random() - 0.5)*intensity;
+        const shakeY = (Math.random() - 0.5)*intensity;
+
+        ctx.translate(shakeX,shakeY);
+        shakeTime--;
+    }
     drawBackground();
     if(!gameStarted){
+        ctx.restore();
         requestAnimationFrame(gameLoop);
         return;
     }
     if(isPaused){
+        ctx.restore();
         requestAnimationFrame(gameLoop);
         return;
     }
@@ -321,9 +389,11 @@ function gameLoop(){
         moveObstacles();
         moveCoins();
         moveShields();
+        updateParticles();
         checkCollision();
 
         drawCoins();
+        drawParticles();
         drawShields();
         drawPlayer();
         drawObstacles();
@@ -337,24 +407,47 @@ function gameLoop(){
         ctx.fillStyle = "rgba(5,5,20,0.8)";
         ctx.fillRect(0,0,canvas.width,canvas.height);
 
-        ctx.fillStyle = "#ff4d8d";
-        ctx.font = "42px Arial";
         ctx.textAlign = "center";
+
+        ctx.fillStyle = "#ff4d8d";
+        ctx.font = "bold 44px Arial";
+        ctx.shadowColor = "#ff4d8d";
+        ctx.shadowBlur = 15;
+        ctx.fillText("GAME OVER", canvas.width / 2, 190);
+
+        ctx.shadowBlur=0;
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "22px Arial";
         ctx.fillText(
-            "GAME OVER",
+            "Your Score: " + score,
             canvas.width / 2,
-            canvas.height / 2 -35
+            245
         );
-        ctx.fillStyle="#ffffff";
-        ctx.font = "20px Arial";
+        ctx.fillStyle = "#63f7ff";
+        ctx.font = "18px Arial";
         ctx.fillText(
-            "Press ENTER to try again",
+            "Best Score: "+ bestScore,
+            canvas.width / 2,
+            280
+        );
+        ctx.fillStyle = "#a5a5c7";
+        ctx.font = "15px Arial";
+        ctx.fillText(
+            "Every run makes you better.",
+            canvas.width / 2,
+            325
+        );
+
+        ctx.fillText(
+            "Press ENTER or click PLAY AGAIN",
             canvas.width /2,
-            canvas.height / 2 +15
+            365
         );
 
         ctx.textAlign = "left";
     }
+    ctx.restore();
     requestAnimationFrame(gameLoop);
 }
 

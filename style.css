@@ -83,11 +83,14 @@ h1{
     letter-spacing: 2px;
     cursor: pointer;
     z-index: 2;
+    font-weight: bold;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 #restartButton:hover{
     background: #63f7ff;
     color: #090914;
+    box-shadow: 0 0 18px rgba(99, 247, 255, 0.45);
 }
 
 #startScreen {
