@@ -89,3 +89,124 @@ h1{
     background: #63f7ff;
     color: #090914;
 }
+
+#startScreen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: rgba(9,9,20,0.94);
+    z-index: 3;
+}
+
+#startScreen h2{
+    color: #63f7ff;
+    font-size: 34px;
+    letter-spacing: 4px;
+    text-shadow: 0 0 12px #00d9ff;
+}
+
+#startScreen p {
+    color: #a5a5c7;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+
+#startButton{
+    padding: 13px 28px;
+    border: 1px solid #63f7ff;
+    border-radius: 6px;
+    background: #101025;
+    color: #63f7ff;
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+#startButton:hover{
+    background: #63f7ff;
+    color: #090914;
+}
+
+@media(max-width: 600px){
+    #startScreen h2{
+        font-size: 23px;
+        letter-spacing: 2px;
+    }
+    #startScreen p{
+        font-size: 11px;
+    }
+}
+
+.hud{
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    display: flex;
+    gap: 24px;
+    z-index: 1;
+}
+
+.hud-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.hud-label{
+    color: #8585a8;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+#currentScore,
+#bestScore{
+    color: #63f7ff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(99, 247, 255, 0.5);
+}
+
+#pauseScreen{
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: rgba(9, 9, 20, 0.92);
+    z-index: 4;
+}
+
+#pauseScreen h2{
+    color: #63f7ff;
+    font-size: 36px;
+    letter-spacing: 5px;
+    text-shadow: 0 0 12px #00d9ff;
+}
+
+#pauseScreen p{
+    color: #a5a5c7;
+    font-size: 14px;
+}
+
+#resumeButton{
+    padding: 12px 26px;
+    border: 1px solid #63f7ff;
+    border-radius: 6px;
+    background: #101025;
+    color: #63f7ff;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+#resumeButton:hover{
+    background: #63f7ff;
+    color: #090914;
+}
+

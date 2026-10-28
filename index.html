@@ -12,6 +12,26 @@
         <p class="subtitle">Just one more run.</p>
         <div class="game-container">
             <canvas id="gameCanvas" width="800" height="500"></canvas>
+            <div class="hud">
+                <div class="hud-item">
+                    <span class="hud-label">SCORE</span>
+                    <span id="currentScore">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">BEST</span>
+                    <span id="bestScore">0</span>
+                </div>
+            </div>
+            <div id="startScreen">
+                <h2>ONE MORE TRY</h2>
+                <p>Dodge. Collect. Survive.</p>
+                <button id="startButton">START GAME</button>
+            </div>
+            <div id="pauseScreen">
+                <h2>PAUSED</h2>
+                <p>Take a breadth. Your run can wait.</p>
+                <button id="resumeButton">RESUME</button>
+            </div>
             <button id="restartButton">PLAY AGAIN</button>
         </div>
         <p class="controls">Use A/D or the arrow keys to move</p>
