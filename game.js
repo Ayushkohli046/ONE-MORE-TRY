@@ -4,6 +4,7 @@ const ctx = canvas.getContext("2d");
 const currentScoreDisplay = document.getElementById("currentScore");
 const bestScoreDisplay = document.getElementById("bestScore");
 let bestScore= Number(localStorage.getItem("oneMoreTryBest")) || 0;
+let newHighScore = false;
 
 bestScoreDisplay.textContent = bestScore;
 
@@ -336,6 +337,7 @@ function drawScore(){
     currentScoreDisplay.textContent = score;
     if(score>bestScore){
         bestScore=score;
+        newHighScore = true;
         bestScoreDisplay.textContent = bestScore;
         localStorage.setItem("oneMoreTryBest",bestScore);
     }
@@ -369,6 +371,7 @@ function restartGame(){
     shieldActive = false;
     obstacleTimer = 0;
     score=0;
+    newHighScore = false;
     shakeTime =0;
     difficulty = 1;
     gameOver= false;
@@ -471,6 +474,13 @@ function gameLoop(){
         ctx.font = "bold 44px Arial";
         ctx.shadowColor = "#ff4d8d";
         ctx.shadowBlur = 15;
+
+        if(newHighScore){
+            ctx.fillStyle = "#ffd166";
+            ctx.font = "bold 18px Arial";
+            ctx.fillText("NEW HIGH SCORE!", canvas,width / 2 , 140);
+        }
+
         ctx.fillText("GAME OVER", canvas.width / 2, 180);
 
         ctx.shadowBlur=0;
