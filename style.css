@@ -15,7 +15,7 @@ body{
  }
 
 .game-wrapper{
-    width: 90%;
+    width: 100%;
     max-width: 900px;
     text-align: center;
     padding: 25px 0;
@@ -38,7 +38,6 @@ h1{
     position: relative;
     width: min(800px, 100%);
     max-width: 100%;
-    position: relative;
     border: 2px solid #25254b;
     border-radius: 12px;
     overflow: hidden;
@@ -229,24 +228,83 @@ h1{
 
 #countdownText{
     color: #63f7ff;
-    font-size: 100px;
+    font-size: clamp(48px, 12vw, 100px);
     font-weight: bold;
     text-shadow: 0 0 20px #00d9ff;
 }
 
 @media (max-width: 600px){
     body{
-        padding: 12px;
+        min-height: 100vh;
+        padding: 16px 0;
+        align-items: flex-start;
+    }
+    .game-wrapper{
+        width: 96%;
+        padding: 12px 0;
     }
     h1{
-        font-size: clamp(2rem, 9vw, 3rem);
+        font-size: clamp(24px, 7vw, 36px);
+        letter-spacing: 3px;
+        margin-bottom: 8px;
     }
-
+    .subtitle{
+        font-size: 11px;
+        letter-spacing: 1px;
+        margin-bottom: 18px;
+    }
     .game-container{
         width: 100%;
     }
     #gameCanvas{
+        display: block;
         width: 100%;
         height: auto;
+    }
+    .hud{
+        top: 8px;
+        right: 8px;
+        gap: 12px;
+    }
+    .hud-label{
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+    #currentScore,
+    #bestScore{
+        font-size: 15px;
+    }
+    .controls{
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        line-height: 1.6;
+        margin-top: 12px;
+    }
+    #startScreen h2{
+        font-size: clamp(18px, 5vw, 24px);
+        letter-spacing: 2px;
+    }
+    #startScreen p{
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+    #startButton, 
+    #resumeButton{
+        padding: 10px 18px;
+        font-size: 12px;
+    }
+    #pauseScreen h2{
+        font-size: 28px;
+        letter-spacing: 3px;
+    }
+    #countdownText{
+        font-size: clamp(48px, 12vw, 72px);
+    }
+    #restartButton{
+        max-width: 90%;
+        padding: 10px 14px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        white-space: nowrap;
     }
 }

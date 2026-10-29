@@ -77,7 +77,7 @@ function drawBackground() {
     ctx.textAlign = "left";
     ctx.fillText(
         "LEVEL: " + (Math.floor(score / 5) +1),
-        20
+        20,
         30
     );
 
