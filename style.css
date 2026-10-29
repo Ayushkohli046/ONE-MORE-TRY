@@ -213,3 +213,20 @@ h1{
     color: #090914;
 }
 
+#countdownScreen{
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(9, 9, 20, 0.45);
+    z-index: 2;
+    pointer-events: none;
+}
+
+#countdownText{
+    color: #63f7ff;
+    font-size: 100px;
+    font-weight: bold;
+    text-shadow: 0 0 20px #00d9ff;
+}

@@ -23,9 +23,17 @@ resumeButton.addEventListener("click", resumeGame);
 
 let gameStarted = false;
 let isPaused = false;
+let countdown = 0;
+let countdownFrames = 0;
+let isCountingDown = false;
+
+const countdownScreen = document.getElementById("countdownScreen");
+const countdownText = document.getElementById("countdownText");
+
 startButton.addEventListener("click", function(){
     gameStarted = true;
     startScreen.style.display = "none";
+    startCountDown();
 });
 
 restartButton.addEventListener("click",restartGame);
@@ -344,6 +352,15 @@ function restartGame(){
     gameStarted = true;
     isPaused = false;
     pauseScreen.style.display = "none";
+    startCountDown();
+}
+
+function startCountDown(){
+    countdown  = 3;
+    countdownFrames = 0;
+    isCountingDown = true;
+    countdownScreen.style.display = "flex";
+    countdownText.textContent = countdown;
 }
 
 function gameLoop(){
