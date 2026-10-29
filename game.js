@@ -525,4 +525,30 @@ document.addEventListener("keyup", function(event){
         keys.right= false;
     }
 });
+
+const leftButton = document.getElementById("leftButton");
+const rightButton = document.getElementById("rightButton");
+
+leftButton.addEventListener("pointerdown", function(event){
+    event.preventDefault();
+    keys.left = true;
+});
+
+rightButton.addEventListener("pointerdown", function(event){
+    event.preventDefault();
+    keys.right = true;
+});
+
+function stopTouchMovement(){
+    keys.left = false;
+    keys.right = false;
+}
+leftButton.addEventListener("pointerup", stopTouchMovement);
+leftButton.addEventListener("pointercancel", stopTouchMovement);
+leftButton.addEventListener("pointerleave", stopTouchMovement);
+
+rightButton.addEventListener("pointerup", stopTouchMovement);
+rightButton.addEventListener("pointercancel", stopTouchMovement);
+rightButton.addEventListener("pointerleave", stopTouchMovement);
+
 gameLoop();
