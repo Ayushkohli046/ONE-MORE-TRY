@@ -480,7 +480,7 @@ function gameLoop(){
 
         ctx.fillText(
             "SCORE: "+score,
-            canvas.width / 2;
+            canvas.width / 2,
             220
         );
 
