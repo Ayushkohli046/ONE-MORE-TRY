@@ -72,6 +72,15 @@ let shakeStrength = 8;
 function drawBackground() {
     ctx.fillStyle = "#0d0d20";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#63f7ff";
+    ctx.font = "14px Arial";
+    ctx.textAlign = "left";
+    ctx.fillText(
+        "LEVEL: " + (Math.floor(score / 5) +1),
+        20
+        30
+    );
+
     ctx.strokeStyle = "#191932";
     ctx.lineWidth = 1;
 
@@ -116,7 +125,7 @@ function movePlayer(){
         player.speed = -player.maxSpeed;
     }
     player.x +=player.speed;
-    
+
     if(player.x < player.size){
         player.x = player.size;
         player.speed =0;
@@ -329,17 +338,14 @@ function drawScore(){
         bestScoreDisplay.textContent = bestScore;
         localStorage.setItem("oneMoreTryBest",bestScore);
     }
-
-    ctx.fillStyle = "#ffffff"; 
-    ctx.font = "20px Arial";
-    ctx.fillText("Score: "+ score, 20, 30);
-    ctx.fillStyle="#64f7ff";
+    ctx.fillStyle = "#63f7ff";
     ctx.font = "14px Arial";
     ctx.fillText(
-        "LEVEL: "+(Math.floor(score /5 )+1),
+        "LEVEL: "+(Math.floor(score / 5)+1),
         20,
-        52
+        30
     );
+
     if(hasShield){
         ctx.fillStyle = "#63f7ff";
         ctx.font = "14px Arial";
@@ -452,7 +458,6 @@ function gameLoop(){
         restartButton.style.display = "block";
         drawObstacles();
         drawPlayer();
-        drawScore();
 
         ctx.fillStyle = "rgba(5,5,20,0.8)";
         ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -467,32 +472,19 @@ function gameLoop(){
 
         ctx.shadowBlur=0;
 
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "22px Arial";
-        ctx.fillText(
-            "Your Score: " + score,
-            canvas.width / 2,
-            245
-        );
-        ctx.fillStyle = "#63f7ff";
-        ctx.font = "18px Arial";
-        ctx.fillText(
-            "Best Score: "+ bestScore,
-            canvas.width / 2,
-            280
-        );
         ctx.fillStyle = "#a5a5c7";
         ctx.font = "15px Arial";
+
         ctx.fillText(
             "Every run makes you better.",
             canvas.width / 2,
-            325
+            260
         );
 
         ctx.fillText(
             "Press ENTER or click PLAY AGAIN",
             canvas.width /2,
-            365
+            300
         );
 
         ctx.textAlign = "left";
