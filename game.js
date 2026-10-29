@@ -25,6 +25,7 @@ let gameStarted = false;
 let isPaused = false;
 let countdown = 0;
 let countdownFrames = 0;
+let countdownStartTime = 0;
 let isCountingDown = false;
 
 const countdownScreen = document.getElementById("countdownScreen");
@@ -354,6 +355,8 @@ function drawScore(){
 }
 
 function restartGame(){
+    restartButton.style.display = "none";
+
     player.x = canvas.width /2;
     player.y = 400;
     player.speed=0;
@@ -380,7 +383,7 @@ function restartGame(){
 
 function startCountDown(){
     countdown  = 3;
-    countdownFrames = 0;
+    countdownStartTime = performance.now();
     isCountingDown = true;
     countdownScreen.style.display = "flex";
     countdownText.textContent = countdown;
@@ -409,12 +412,12 @@ function gameLoop(){
         return;
     }
     if(isCountingDown){
-        countdownFrames++;
-        countdown = 3 - Math.floor((countdownFrames-1) / 60);
+        const elapsed = performance.now() - countdownStartTime;
+        countdown = 3 - Math.floor(elapsed/1000);
 
         if(countdown>0){
             countdownText.textContent = countdown;
-        } else if(countdownFrames < 240){
+        } else if(elapsed < 4000){
             countdownText.textContent = "GO!";
         } else {
             isCountingDown=false;
@@ -472,19 +475,28 @@ function gameLoop(){
 
         ctx.shadowBlur=0;
 
+        ctx.fillStyle = "#63f7ff";
+        ctx.font="bold 22px Arial";
+
+        ctx.fillText(
+            "SCORE: "+score,
+            canvas.width / 2;
+            220
+        );
+
         ctx.fillStyle = "#a5a5c7";
         ctx.font = "15px Arial";
 
         ctx.fillText(
             "Every run makes you better.",
             canvas.width / 2,
-            235
+            260
         );
 
         ctx.fillText(
             "Press ENTER or click PLAY AGAIN",
             canvas.width /2,
-            265
+            290
         );
 
         ctx.textAlign = "left";
@@ -497,6 +509,7 @@ document.addEventListener("keydown", function(event) {
     if(event.key.toLowerCase()==="p" &&
         gameStarted && 
         !gameOver &&
+        !isCountingDown &&
         !event.repeat){
         isPaused = !isPaused;
         pauseScreen.style.display = isPaused ? "flex" : "none";
@@ -539,16 +552,19 @@ rightButton.addEventListener("pointerdown", function(event){
     keys.right = true;
 });
 
-function stopTouchMovement(){
+function stopLeftMovement(){
     keys.left = false;
+}
+function stopRightMovement(){
     keys.right = false;
 }
-leftButton.addEventListener("pointerup", stopTouchMovement);
-leftButton.addEventListener("pointercancel", stopTouchMovement);
-leftButton.addEventListener("pointerleave", stopTouchMovement);
 
-rightButton.addEventListener("pointerup", stopTouchMovement);
-rightButton.addEventListener("pointercancel", stopTouchMovement);
-rightButton.addEventListener("pointerleave", stopTouchMovement);
+leftButton.addEventListener("pointerup", stopLeftMovement);
+leftButton.addEventListener("pointercancel", stopLeftMovement);
+leftButton.addEventListener("pointerleave", stopLeftMovement);
+
+rightButton.addEventListener("pointerup", stopRightMovement);
+rightButton.addEventListener("pointercancel", stopRightMovement);
+rightButton.addEventListener("pointerleave", stopRightMovement);
 
 gameLoop();
