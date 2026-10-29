@@ -42,7 +42,10 @@ const player = {
     x : 400,
     y: 400,
     size: 14,
-    speed: 5,
+    speed: 0,
+    maxSpeed: 5,
+    acceleration: 0.6,
+    friction: 0.8,
     color: "#63f7ff"
 };
 
@@ -98,16 +101,29 @@ function drawPlayer(){
 }
 function movePlayer(){
     if(keys.left){
-        player.x -= player.speed;
+        player.speed -= player.acceleration;
     }
     if(keys.right){
-        player.x += player.speed;
+        player.speed += player.acceleration;
     }
+    if(!keys.left && !keys.right){
+        player.speed *= player.friction;
+    }
+    if(player.speed > player.maxSpeed){
+        player.speed = player.maxSpeed;
+    }
+    if(player.speed < -player.maxSpeed){
+        player.speed = -player.maxSpeed;
+    }
+    player.x +=player.speed;
+    
     if(player.x < player.size){
-        player.x  = player.size;
+        player.x = player.size;
+        player.speed =0;
     }
     if(player.x > canvas.width - player.size){
         player.x = canvas.width - player.size;
+        player.speed = 0;
     }
 }
 
@@ -334,6 +350,7 @@ function drawScore(){
 function restartGame(){
     player.x = canvas.width /2;
     player.y = 400;
+    player.speed=0;
     obstacles.length = 0 ;
     coins.length = 0;
     shields.length =0 ;
@@ -381,6 +398,22 @@ function gameLoop(){
         return;
     }
     if(isPaused){
+        ctx.restore();
+        requestAnimationFrame(gameLoop);
+        return;
+    }
+    if(isCountingDown){
+        countdownFrames++;
+        countdown = 3 - Math.floor((countdownFrames-1) / 60);
+
+        if(countdown>0){
+            countdownText.textContent = countdown;
+        } else if(countdownFrames < 240){
+            countdownText.textContent = "GO!";
+        } else {
+            isCountingDown=false;
+            countdownScreen.style.display ="none";
+        }
         ctx.restore();
         requestAnimationFrame(gameLoop);
         return;
