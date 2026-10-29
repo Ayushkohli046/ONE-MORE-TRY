@@ -74,7 +74,7 @@ h1{
     display: none;
     position: absolute;
     left: 50%;
-    top: 70%;
+    top: 60%;
     transform: translate(-50%,-50%);
     padding: 12px 25px;
     border: 1px solid #63f7ff;

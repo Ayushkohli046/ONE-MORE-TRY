@@ -468,7 +468,7 @@ function gameLoop(){
         ctx.font = "bold 44px Arial";
         ctx.shadowColor = "#ff4d8d";
         ctx.shadowBlur = 15;
-        ctx.fillText("GAME OVER", canvas.width / 2, 190);
+        ctx.fillText("GAME OVER", canvas.width / 2, 180);
 
         ctx.shadowBlur=0;
 
@@ -478,13 +478,13 @@ function gameLoop(){
         ctx.fillText(
             "Every run makes you better.",
             canvas.width / 2,
-            260
+            235
         );
 
         ctx.fillText(
             "Press ENTER or click PLAY AGAIN",
             canvas.width /2,
-            300
+            265
         );
 
         ctx.textAlign = "left";
