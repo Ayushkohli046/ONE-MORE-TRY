@@ -152,7 +152,7 @@ h1{
     right: 18px;
     display: flex;
     gap: 24px;
-    z-index: 1;
+    z-index: 10;
 }
 
 .hud-item{
@@ -367,15 +367,15 @@ h1{
 
 #soundButton{
     position: absolute;
-    top: 15px;
+    top: 90%;
     right: 15px;
     padding: 8px 12px;
-    background: 8px 12px;
-    color: transparent;
+    background: transparent;
     color: #00f5ff;
     border: 1px solid #00f5ff;
     border-radius: 8px;
     cursor: pointer;
     font-size: 13px;
-    z-index: 10;
+    z-index: 11;    
+    pointer-events: auto;
 }

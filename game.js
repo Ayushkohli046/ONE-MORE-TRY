@@ -3,7 +3,8 @@ const ctx = canvas.getContext("2d");
 let audioContext;
 
 const soundButton = document.getElementById("soundButton");
-let soundEnabled = true;
+let soundEnabled = localStorage.getItem("oneMoreTrySound") !== "false";
+soundButton.textContent = soundEnabled ? "🔊 Sound ON" : "🔇 Sound OFF";
 
 function initAudio(){
     if(!audioContext){
@@ -96,6 +97,7 @@ startButton.addEventListener("click", function(){
 
 soundButton.addEventListener("click", function(){
     soundEnabled = !soundEnabled;
+    localStorage.setItem("oneMoreTrySound", soundEnabled);
 
     if(soundEnabled){
         soundButton.textContent = "🔊 Sound ON";
@@ -133,6 +135,11 @@ let shieldActive = false;
 let obstacleTimer = 0;
 let gameOver = false;
 let score =0;
+
+let combo =0;
+let lastCoinTime = 0;
+let comboTimer = 200;
+
 let difficulty =1;
 let shakeTime = 0;
 let shakeStrength = 8;
@@ -352,6 +359,15 @@ function moveCoins(){
             createParticles(coin.x, coin.y);
             playCoinSound();
 
+            const currentTime = performance.now();
+
+            if(currentTime - lastCoinTime < comboTimer){
+                combo++;
+            } else {
+                combo =1;
+            }
+            lastCoinTime = currentTime;
+
             coins.splice(i,1);
             score+=2;
         } else if(coin.y - coin.size > canvas.height){
@@ -425,6 +441,23 @@ function drawScore(){
         20,
         30
     );
+
+    if(combo >1 && performance.now() - lastCoinTime < comboTimer){
+        ctx.save();
+
+        ctx.fillStyle = "#ffd166";
+        ctx.font = "bold 20px Arial";
+        ctx.textAlign = "center";
+        ctx.shadowColor = "#ffd166";
+        ctx.shadowBlur = 12;
+
+        ctx.fillText(
+            combo + "x COMBO!",
+            canvas.width / 2,
+            70
+        );
+        ctx.restore();
+    }
 
     if(hasShield){
         ctx.fillStyle = "#63f7ff";
