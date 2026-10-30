@@ -44,6 +44,10 @@ function playShieldSound(){
     playSound(660, 0.25, "sine", 0.18);
 }
 
+function playNearMissSound(){
+    playSound(1100, 0.12, "sine", 0.12);
+}
+
 function playCollisionSound(){
     playSound(130, 0.35, "sawtooth", 0.18);
 }
@@ -137,10 +141,15 @@ let gameOver = false;
 let score =0;
 let nearMissText = "";
 let nearMissTimer = 0;
+let nearMissFlash = 0;
 
 let combo =0;
 let lastCoinTime = 0;
 let comboTimer = 200;
+
+let coinsCollected = 0;
+let nearMisses = 0;
+let highestCombo = 0;
 
 let difficulty =1;
 let shakeTime = 0;
@@ -370,9 +379,14 @@ function moveCoins(){
                 combo =1;
             }
             lastCoinTime = currentTime;
+            if(combo>highestCombo){
+                highestCombo = combo;
+            }
+
+            coinsCollected++;
 
             coins.splice(i,1);
-            score+=2;
+            score+=2 * combo;
         } else if(coin.y - coin.size > canvas.height){
             coins.splice(i,1);
         }
@@ -435,8 +449,11 @@ function checkCollision(){
             }
             if(horizontalGap >= 0 && horizontalGap <= 20){
                 score +=5;
+                nearMisses++; 
+
                 nearMissText = "NEAR MISS +5";
-                nearMissTimer = 60;
+                nearMissTimer = 12;
+                playNearMissSound();
             }
         }
     }
@@ -504,6 +521,15 @@ function drawScore(){
 
         nearMissTimer--;
     }
+    if(nearMissFlash > 0){
+        ctx.save();
+        ctx.fillStyle = "rgba(255 , 209, 102, 0.15)";
+        ctx.fillRect(0,0,canvas.width, canvas.height);
+
+        ctx.restore();
+
+        nearMissFlash--;
+    }
 }
 
 function restartGame(){
@@ -524,8 +550,12 @@ function restartGame(){
     score=0;
     combo = 0;
     lastCoinTime =0;
+    coinsCollected = 0;
+    nearMisses = 0;
+    highestCombo = 0;
     nearMissText = "";
     nearMissTimer = 0;
+    nearMissFlash = 0;
     newHighScore = false;
     shakeTime =0;
     difficulty = 1;
@@ -648,7 +678,7 @@ function gameLoop(){
             ctx.restore();
         }
 
-        ctx.fillText("GAME OVER", canvas.width / 2, 180);
+        ctx.fillText("GAME OVER", canvas.width / 2, 140);
 
         ctx.shadowBlur=0;
 
@@ -658,7 +688,30 @@ function gameLoop(){
         ctx.fillText(
             "SCORE: "+score,
             canvas.width / 2,
-            220
+            210
+        );
+
+        ctx.font = "18px Arial";
+
+        ctx.fillStyle = "#00ffff";
+        ctx.fillText(
+            "COINS COLLECTED: " + coinsCollected, 
+            canvas.width / 2,
+            260
+        );
+
+        ctx.fillStyle = "#ff4da6";
+        ctx.fillText(
+            "NEAR MISSES: "+ nearMisses, 
+            canvas.width / 2,
+            295
+        );
+
+        ctx.fillStyle = "#ffd700";
+        ctx.fillText(
+            "BEST COMBO: x"+highestCombo, 
+            canvas.width / 2,
+            330
         );
 
         ctx.fillStyle = "#a5a5c7";
@@ -667,13 +720,13 @@ function gameLoop(){
         ctx.fillText(
             "Every run makes you better.",
             canvas.width / 2,
-            260
+            370
         );
 
         ctx.fillText(
             "Press ENTER or click PLAY AGAIN",
             canvas.width /2,
-            290
+            400
         );
 
         ctx.textAlign = "left";
