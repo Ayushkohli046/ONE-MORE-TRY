@@ -476,9 +476,21 @@ function gameLoop(){
         ctx.shadowBlur = 15;
 
         if(newHighScore){
+            const glow = Math.sin(performance.now() / 200) *5 +15;
+
+            ctx.save();
             ctx.fillStyle = "#ffd166";
             ctx.font = "bold 18px Arial";
-            ctx.fillText("NEW HIGH SCORE!", canvas,width / 2 , 140);
+            ctx.textAlign = "center";
+            ctx.shadowColor = "#ffd166";
+            ctx.shadowBlur = glow;
+
+            ctx.fillText(
+                "NEW HIGH SCORE",
+                canvas.width  /2,
+                140
+            );
+            ctx.restore();
         }
 
         ctx.fillText("GAME OVER", canvas.width / 2, 180);
