@@ -364,3 +364,18 @@ h1{
         margin: 0 auto;
     }
 }
+
+#soundButton{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 8px 12px;
+    background: 8px 12px;
+    color: transparent;
+    color: #00f5ff;
+    border: 1px solid #00f5ff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    z-index: 10;
+}

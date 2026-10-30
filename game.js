@@ -1,7 +1,9 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-
 let audioContext;
+
+const soundButton = document.getElementById("soundButton");
+let soundEnabled = true;
 
 function initAudio(){
     if(!audioContext){
@@ -12,7 +14,7 @@ function initAudio(){
     }
 }
 function playSound(frequency, duration, type, volume){
-    if(!audioContext) return;
+    if(!audioContext || !soundEnabled) return;
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
 
@@ -90,6 +92,16 @@ startButton.addEventListener("click", function(){
     gameStarted = true;
     startScreen.style.display = "none";
     startCountDown();
+});
+
+soundButton.addEventListener("click", function(){
+    soundEnabled = !soundEnabled;
+
+    if(soundEnabled){
+        soundButton.textContent = "🔊 Sound ON";
+    } else {
+        soundButton.textContent = "🔇 Sound OFF";
+    }
 });
 
 restartButton.addEventListener("click",restartGame);
