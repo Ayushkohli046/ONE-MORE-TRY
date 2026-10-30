@@ -1,6 +1,58 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+let audioContext;
+
+function initAudio(){
+    if(!audioContext){
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if(audioContext.state === "suspended"){
+        audioContext.resume();
+    }
+}
+function playSound(frequency, duration, type, volume){
+    if(!audioContext) return;
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(
+        frequency,
+        audioContext.currentTime
+    );
+    gain.gain.setValueAtTime(volume, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration
+    );
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime+duration);
+}
+
+function playCoinSound(){
+    playSound(880, 0.12, "sine", 0.15);
+}
+
+function playShieldSound(){
+    playSound(660, 0.25, "sine", 0.18);
+}
+
+function playCollisionSound(){
+    playSound(130, 0.35, "sawtooth", 0.18);
+}
+
+function playHighScoreSound(){
+    playSound(660, 0.15, "sine", 0.15);
+
+    setTimeout(function(){
+        playSound(990, 0.25, "sine", 0.15);
+    }, 150);
+}
+
 const currentScoreDisplay = document.getElementById("currentScore");
 const bestScoreDisplay = document.getElementById("bestScore");
 let bestScore= Number(localStorage.getItem("oneMoreTryBest")) || 0;
@@ -33,6 +85,8 @@ const countdownScreen = document.getElementById("countdownScreen");
 const countdownText = document.getElementById("countdownText");
 
 startButton.addEventListener("click", function(){
+    initAudio();
+
     gameStarted = true;
     startScreen.style.display = "none";
     startCountDown();
@@ -284,6 +338,8 @@ function moveCoins(){
         const distance = Math.sqrt(dx * dx + dy * dy);
         if(distance < player.size + coin.size){
             createParticles(coin.x, coin.y);
+            playCoinSound();
+
             coins.splice(i,1);
             score+=2;
         } else if(coin.y - coin.size > canvas.height){
@@ -304,6 +360,8 @@ function moveShields(){
         if(distance < player.size + shield.size){
             shields.splice(i,1);
             hasShield = true;
+
+            playShieldSound();
         } else if (shield.y - shield.size > canvas.height){
             shields.splice(i,1);
         }
@@ -326,6 +384,8 @@ function checkCollision(){
                 break;
             } else {
                 shakeTime = 12;
+                playCollisionSound();
+
                 gameOver = true;
                 break;
             }
@@ -336,8 +396,13 @@ function checkCollision(){
 function drawScore(){
     currentScoreDisplay.textContent = score;
     if(score>bestScore){
-        bestScore=score;
+        if(!newHighScore){
+            playHighScoreSound();
+        }
+
         newHighScore = true;
+        bestScore=score;
+        
         bestScoreDisplay.textContent = bestScore;
         localStorage.setItem("oneMoreTryBest",bestScore);
     }
@@ -357,6 +422,7 @@ function drawScore(){
 }
 
 function restartGame(){
+    initAudio();
     restartButton.style.display = "none";
 
     player.x = canvas.width /2;
