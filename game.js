@@ -135,6 +135,8 @@ let shieldActive = false;
 let obstacleTimer = 0;
 let gameOver = false;
 let score =0;
+let nearMissText = "";
+let nearMissTimer = 0;
 
 let combo =0;
 let lastCoinTime = 0;
@@ -217,7 +219,8 @@ function createObstacle(){
         x: Math.random() * (canvas.width - size),
         y: -size,
         size: size,
-        speed: (Math.random() *2 + 2) * difficulty
+        speed: (Math.random() *2 + 2) * difficulty,
+        nearMissChecked: false
     };
     obstacles.push(obstacle);
 }
@@ -418,6 +421,24 @@ function checkCollision(){
                 break;
             }
         } 
+        if(!obstacle.nearMissChecked  && obstacle.y > player.y + player.size){
+            obstacle.nearMissChecked = true;
+
+            let horizontalGap;
+
+            if(player.x < obstacle.x){
+                horizontalGap = obstacle.x - (player.x + player .size);
+            } else if(player.x>obstacle.x + obstacle.size){
+                horizontalGap = player.x - player.size - (obstacle.x + obstacle.size);
+            } else {
+                horizontalGap = 0;
+            }
+            if(horizontalGap >= 0 && horizontalGap <= 20){
+                score +=5;
+                nearMissText = "NEAR MISS +5";
+                nearMissTimer = 60;
+            }
+        }
     }
 }
 
@@ -464,6 +485,25 @@ function drawScore(){
         ctx.font = "14px Arial";
         ctx.fillText("SHIELD READY", 20, 72);
     }
+    if(nearMissTimer > 0){
+        ctx.save();
+
+        ctx.globalAlpha = nearMissTimer / 60;
+        ctx.fillStyle = "#ffd166";
+        ctx.font = "bold 22px Arial";
+        ctx.textAlign = "center";
+        ctx.shadowColor = "#ffd166";
+        ctx.shadowBlur = 15;
+
+        ctx.fillText(
+            nearMissText,
+            canvas.width / 2,
+            120
+        );
+        ctx.restore();
+
+        nearMissTimer--;
+    }
 }
 
 function restartGame(){
@@ -482,6 +522,10 @@ function restartGame(){
     shieldActive = false;
     obstacleTimer = 0;
     score=0;
+    combo = 0;
+    lastCoinTime =0;
+    nearMissText = "";
+    nearMissTimer = 0;
     newHighScore = false;
     shakeTime =0;
     difficulty = 1;
