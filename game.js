@@ -151,7 +151,7 @@ function drawBackground() {
     ctx.font = "14px Arial";
     ctx.textAlign = "left";
     ctx.fillText(
-        "LEVEL: " + (Math.floor(score / 5) +1),
+        "LEVEL: " + (Math.floor(score / 10) +1),
         20,
         30
     );
@@ -343,7 +343,7 @@ function moveObstacles(){
         if (obstacles[i].y > canvas.height){
             obstacles.splice(i,1);
             score++;
-            difficulty = 1 + Math.floor(score / 5) * 0.2;
+            difficulty = 1 + Math.floor(score / 10) * 0.15;
         }
     }
 }
@@ -437,7 +437,7 @@ function drawScore(){
     ctx.fillStyle = "#63f7ff";
     ctx.font = "14px Arial";
     ctx.fillText(
-        "LEVEL: "+(Math.floor(score / 5)+1),
+        "LEVEL: "+(Math.floor(score / 10)+1),
         20,
         30
     );
