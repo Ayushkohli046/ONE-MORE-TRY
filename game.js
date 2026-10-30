@@ -123,18 +123,27 @@ const player = {
     color: "#63f7ff"
 };
 
-const playerImage = new Image();
-let playerImageLoaded = false;
+const shipImages = [];
 
-playerImage.onload = function(){
-    playerImageLoaded = true;
-};
+const shipFiles = [
+    "images/player.png",
+    "images/ship2.png",
+    "images/ship3.png",
+    "images/ship4.png",
+    "images/ship5.png"
+];
 
-playerImage.onerror = function(){
-    console.log("Spaceship image could not be loaded");
-};
+let selectedShipIndex = 0;
 
-playerImage.src = "images/player.png";
+for(let i = 0; i < shipFiles.length; i++){
+    const img = new Image();
+    img.src = shipFiles[i];
+
+    img.onerror = function(){
+        console.log("Could not load: " + shipFiles[i]);
+    };
+    shipImages.push(img);
+}
 
 const keys = {
     left: false,
@@ -161,6 +170,7 @@ let lastCoinTime = 0;
 let comboTimer = 200;
 
 let coinsCollected = 0;
+let totalCoins = Number(localStorage.getItem("oneMoreTryCoins")) || 0;
 let nearMisses = 0;
 let highestCombo = 0;
 
@@ -200,11 +210,13 @@ function drawBackground() {
 function drawPlayer(){
     ctx.save();
 
-    if(playerImageLoaded){
+    const currentShip = shipImages[selectedShipIndex];
+
+    if(currentShip.complete && currentShip.naturalWidth > 0){
         ctx.shadowBlur = 20;
         ctx.shadowColor = player.color;
         ctx.drawImage(
-            playerImage,
+            currentShip,
             player.x - 24,
             player.y - 24,
             48,
@@ -416,6 +428,10 @@ function moveCoins(){
             }
 
             coinsCollected++;
+            totalCoins++;
+
+            localStorage.getItem("oneMoreTryCoins", totalCoins);
+            updateParticles();
 
             coins.splice(i,1);
             score+=2 * combo;
@@ -781,6 +797,9 @@ document.addEventListener("keydown", function(event) {
         restartGame();
     }
     if(!gameOver){
+        if(event.key >= "1" && event.key <="5"){
+            selectedShipIndex= Number(event.key)-1;
+        }
         if(event.key === "ArrowLeft" || event.key.toLowerCase()==="a"){
             keys.left = true;
             event.preventDefault();
@@ -821,6 +840,10 @@ function stopRightMovement(){
     keys.right = false;
 }
 
+function updateWalletDisplay(){
+    document.getElementById("walletCoins").textContent = "🪙 "+totalCoins;
+}
+
 leftButton.addEventListener("pointerup", stopLeftMovement);
 leftButton.addEventListener("pointercancel", stopLeftMovement);
 leftButton.addEventListener("pointerleave", stopLeftMovement);
@@ -829,4 +852,5 @@ rightButton.addEventListener("pointerup", stopRightMovement);
 rightButton.addEventListener("pointercancel", stopRightMovement);
 rightButton.addEventListener("pointerleave", stopRightMovement);
 
+updateWalletDisplay();
 gameLoop();
