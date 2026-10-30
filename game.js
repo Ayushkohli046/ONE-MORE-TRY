@@ -123,6 +123,19 @@ const player = {
     color: "#63f7ff"
 };
 
+const playerImage = new Image();
+let playerImageLoaded = false;
+
+playerImage.onload = function(){
+    playerImageLoaded = true;
+};
+
+playerImage.onerror = function(){
+    console.log("Spaceship image could not be loaded");
+};
+
+playerImage.src = "images/player.png";
+
 const keys = {
     left: false,
     right: false
@@ -186,14 +199,33 @@ function drawBackground() {
 
 function drawPlayer(){
     ctx.save();
-    ctx.shadowBlur =20;
-    ctx.shadowColor = player.color;
-    ctx.fillStyle=player.color;
-    ctx.beginPath();
-    ctx.arc(player.x, player.y,player.size,0,Math.PI *2);
-    ctx.fill();
+
+    if(playerImageLoaded){
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = player.color;
+        ctx.drawImage(
+            playerImage,
+            player.x - 24,
+            player.y - 24,
+            48,
+            48
+        );
+    } else {
+        ctx.fillStyle = player.color;
+
+        ctx.beginPath();
+        ctx.arc(
+            player.x,
+            player.y,
+            player.size,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
     ctx.restore();
 }
+
 function movePlayer(){
     if(keys.left){
         player.speed -= player.acceleration;
