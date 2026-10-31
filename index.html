@@ -22,8 +22,8 @@
                     <span class="hud-label">BEST</span>
                     <span id="bestScore">0</span>
                 </div>
-                <div>
-                    <span class="hud-item">COINS</span>
+                <div class="hud-item">
+                    <span class="hud-label">COINS</span>
                     <span id="walletCoins">🪙 0</span>
                 </div>
             </div>
@@ -31,6 +31,47 @@
                 <h2>ONE MORE TRY</h2>
                 <p>Dodge. Collect. Survive.</p>
                 <button id="startButton">START GAME</button>
+                <button id="shopButton">🚀 SPACESHIP SHOP</button>
+            </div>
+            <div id="shopScreen">
+                <h2>SPACESHIP SHOP</h2>
+                <p>Choose your ride. Rule the galaxy.</p>
+                <div class="ship-wallet">
+                    🪙 Coins: <span id="shopCoins">0</span>
+                </div>
+                <div class="ship-list">
+                    <div class="ship-card">
+                        <img src="images/player.png" alt="Neon Runner">
+                        <h3>Neon Runner</h3>
+                        <p>FREE</p>
+                        <button id="shipButton0">EQUIPPED</button>
+                    </div>
+                    <div class="ship-card">
+                        <img src="images/ship2.png" alt="Phantom X">
+                        <h3>Phantom x</h3>
+                        <p>250 Coin</p>
+                        <button id="shipButton2">BUY</button>
+                    </div>
+                    <div class="ship-card">
+                        <img src="images/ship3.png" alt="Inferno">
+                        <h3>Inferno</h3>
+                        <p>350 Coins</p>
+                        <button id="shipButton2">BUY</button>
+                    </div>
+                    <div class="ship-card">
+                        <img src="images/ship4.png" alt="Golden Fury">
+                        <h3>Golden Fury</h3>
+                        <p>500 Coins</p>
+                        <button id="shipButton3">BUY</button>
+                    </div>
+                    <div class="ship-card">
+                        <img src="images/ship5.png" alt="Nova">
+                        <h3>Nova</h3>
+                        <p>700 Coins</p>
+                        <button id="shipButton4">BUY</button>
+                    </div>
+                </div>
+                <button id="closeShopButton">BACK</button>
             </div>
             <div id="pauseScreen">
                 <h2>PAUSED</h2>

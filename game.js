@@ -70,6 +70,22 @@ bestScoreDisplay.textContent = bestScore;
 const restartButton = document.getElementById("restartButton");
 const startScreen = document.getElementById("startScreen");
 const startButton = document.getElementById("startButton");
+const shopButton = document.getElementById("shopButton");
+const shopScreen = document.getElementById("shopScreen");
+const closeShopButton = document.getElementById("closeShopButton");
+const shopCoins = document.getElementById("shopCoins");
+
+shopButton.addEventListener("click", function(){
+    startScreen.style.display = "none";
+    shopScreen.style.display = "block";
+
+    updateWalletDisplay();
+});
+
+closeShopButton.addEventListener("click", function(){
+    shopScreen.style.display = "none";
+    startScreen.style.display = "flex";
+});
 
 const pauseScreen = document.getElementById("pauseScreen");
 const resumeButton = document.getElementById("resumeButton");
@@ -431,7 +447,7 @@ function moveCoins(){
             totalCoins++;
 
             localStorage.getItem("oneMoreTryCoins", totalCoins);
-            updateParticles();
+            updateWalletDisplay();
 
             coins.splice(i,1);
             score+=2 * combo;
@@ -842,6 +858,7 @@ function stopRightMovement(){
 
 function updateWalletDisplay(){
     document.getElementById("walletCoins").textContent = "🪙 "+totalCoins;
+    shopCoins.textContent = totalCoins;
 }
 
 leftButton.addEventListener("pointerup", stopLeftMovement);

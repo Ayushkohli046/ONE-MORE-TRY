@@ -379,3 +379,110 @@ h1{
     z-index: 11;    
     pointer-events: auto;
 }
+
+#shopScreen{
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    background: rgba(8, 8, 25, 0.97);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+#shopScreen h2{
+    color: #63f7ff;
+    font-size: 28px;
+    text-shadow: 0 0 15px #63f7ff;
+    margin: 10px 0;
+}
+
+#shopScreen > p{
+    color: #aaaac7;
+    margin-bottom: 15px;
+}
+
+.shop-wallet{
+    color: #ffd166;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 15px 0 20px;
+}
+
+.ship-list{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 15px;
+    max-width: 650px;
+    margin: 0 auto 20px;
+}
+.ship-card{
+    background: #15152e;
+    border: 1px solid #34345c;
+    border-radius: 12px;
+    padding: 12px 8px;
+    box-shadow: 0 0 10px rgba(99, 247, 255, 0.12);
+    transition: 0.2s;
+}
+.ship-card:hover{
+    border-color: #63f7ff;
+    box-shadow: 0 0 15px rgba(99, 247, 255, 0.35);
+    transform: translateY(-3px);
+}
+.ship-card img{
+    width: 85px;
+    height: 75px;
+    object-fit: contain;
+}
+.ship-card h3 {
+    color: #63f7ff;
+    font-size: 15px;
+    margin: 8px 0;
+}
+.ship-card p{
+    color: #ffd166;
+    font-size: 13px;
+    margin: 8px 0;
+}
+.ship-card button,
+#closeShopButton{
+    background: transparent;
+    color: #63f7ff;
+    border: 1px solid #63f7ff;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.ship-card button:hover,
+#closeShopButton:hover{
+    background: #63f7ff;
+    color: #080819;
+    box-shadow: 0 0 12px #63f7ff;
+}
+
+#closeShopButton{
+    margin: 5px 0 15px;
+    padding: 10px 25px;
+}
+
+@media (max-width: 600px){
+    #shopScreen{
+        padding: 12px;
+    }
+    #shopScreen h2{
+        font-size: 23px;
+    }
+    .ship-list{
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 10px;
+    }
+    .ship-card img{
+        width: 65px;
+        height: 60px;
+    }
+}
