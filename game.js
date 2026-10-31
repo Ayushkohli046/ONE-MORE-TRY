@@ -167,6 +167,14 @@ const shipNames = [
     "Nova"
 ];
 
+const shipDescription = [
+    "Your first ride into the galaxy.",
+    "Fast, silent and built for survival.",
+    "Born in fire. Made for destruction.",
+    "A golden machine of pure power.",
+    "The ultimate ship from beyond the stars."
+];
+
 let ownedShips = JSON.parse(localStorage.getItem("oneMoreTryOwnedShips")) || [0];
 
 let selectedShipIndex = Number(localStorage.getItem("oneMoreTrySelectedShip")) || 0;
@@ -890,6 +898,7 @@ function updateShopDisplay(){
     shopMessage.textContent = "";
     document.getElementById("selectedShipIndex").src = shipFiles[selectedShipIndex];
     document.getElementById("selectedShipName").textContent = shipNames[selectedShipIndex];
+    document.getElementById("selectedShipDescription").textContent = shipDescription[selectedShipIndex];
 
     for(let i = 0; i< shipPrices.length; i++){
         const button = document.getElementById("shipButton"+i);

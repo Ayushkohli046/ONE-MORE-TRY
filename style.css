@@ -408,7 +408,8 @@ h1{
     position: absolute;
     inset: 0;
     z-index: 20;
-    background: rgba(8, 8, 25, 0.97);
+    background: radial-gradient(circle at 50% 0%, rgba(99, 247, 255, 0.12), transparent 55%),
+    linear-gradient(189deg, #11112a, #080814);
     color: white;
     text-align: center;
     padding: 20px;
@@ -442,12 +443,13 @@ h1{
     margin: 0 auto 20px;
 }
 .ship-card{
-    background: #15152e;
+    position: relative;
+    background: linear-gradient(145deg, #1b1b3b, #101025);
     border: 1px solid #34345c;
-    border-radius: 12px;
-    padding: 12px 8px;
-    box-shadow: 0 0 10px rgba(99, 247, 255, 0.12);
-    transition: 0.2s;
+    border-radius: 12=4px;
+    padding: 16px 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .ship-card:hover{
     border-color: #63f7ff;
@@ -458,7 +460,13 @@ h1{
     width: 85px;
     height: 75px;
     object-fit: contain;
+    filter: drop-shadow( 0 0 9px rgba(99, 247, 255, 0.45));
+    transition: transform 0.3s ease;
 }
+.ship-card:hover img{
+    transform: scale(1.15) translateY(-4px);
+}
+
 .ship-card h3 {
     color: #63f7ff;
     font-size: 15px;
@@ -526,24 +534,53 @@ h1{
 }
 
 .selected-ship-preview{
-    margin: 10px auto 25px;
-    padding: 15px;
-    max-width: 300px;
-    background: rgba(99, 247, 255, 0.86);
+    width: 90%;
+    max-width: 420px;
+    margin: 15px auto 30px;
+    padding: 22px 15px;
+    background: linear-gradient(145deg, #191932, #0d0d20);
     border: 1px solid #63f7ff;
-    border-radius: 15px;
-    box-shadow: 0 0 18px rgba(99, 247, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 0 15px rgba(99, 247, 255, 0.15),
+    inset 0 0 20px rgba(99, 247, 255, 0.04);
+    text-align: center;
 }
 
 .selected-ship-preview img{
-    width: 130px;
-    height: 100px;
+    width: 160px;
+    height: 125px;
     object-fit: contain;
-    filter: drop-shadow(0 0 12px #63f7ff);
+    filter: drop-shadow(0 0 15px rgba(99, 247, 255, 0.7));
+    animation: shipFloat 3s ease-in-out infinite;
+}
+
+@keyframes shipFloat{
+    0%, 100%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(-8px);
+    }
 }
 
 .selected-ship-preview p{
     color: #a5a5c7;
     font-size: 11px;
     letter-spacing: 2px;
+}
+
+#selectedShipDescription{
+    color: #d0d0e8;
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 1.6;
+    margin-top: 8px;
+}
+
+#selectedShipName{
+    color: #63f7ff;
+    font-size: 23px;
+    letter-spacing: 2px;
+    margin: 10px 0;
+    text-shadow: 0 0 12px rgba(99, 247, 255, 0.5);
 }
