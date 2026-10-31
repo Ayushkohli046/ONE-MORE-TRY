@@ -43,6 +43,7 @@ h1{
     overflow: hidden;
     background: #0d0d20;
     box-shadow: 0 0 25px rgba(0, 217, 255, 0.12);
+    margin: 0 auto;
 }
 #gameCanvas{
     display: block;
@@ -404,7 +405,7 @@ h1{
     margin-bottom: 15px;
 }
 
-.shop-wallet{
+.ship-wallet{
     color: #ffd166;
     font-size: 18px;
     font-weight: bold;
@@ -485,4 +486,19 @@ h1{
         width: 65px;
         height: 60px;
     }
+}
+
+.ship-card.equipped{
+    border: 2px solid #63f7ff;
+    box-shadow: 0 0 15px rgba(99, 247, 255, 0.5);
+    transform: translateY(-4px);
+}
+
+#shopMessage{
+    color: #ff5b8a;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 20px;
+    margin: 8px 0 15px;
+    text-shadow: 0 0 8px rgba(255, 91, 138, 0.5);
 }

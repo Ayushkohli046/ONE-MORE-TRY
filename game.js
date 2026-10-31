@@ -70,16 +70,18 @@ bestScoreDisplay.textContent = bestScore;
 const restartButton = document.getElementById("restartButton");
 const startScreen = document.getElementById("startScreen");
 const startButton = document.getElementById("startButton");
+
 const shopButton = document.getElementById("shopButton");
 const shopScreen = document.getElementById("shopScreen");
 const closeShopButton = document.getElementById("closeShopButton");
 const shopCoins = document.getElementById("shopCoins");
+const shopMessage = document.getElementById("shopMessage");
 
 shopButton.addEventListener("click", function(){
     startScreen.style.display = "none";
     shopScreen.style.display = "block";
 
-    updateWalletDisplay();
+    updateShopDisplay();
 });
 
 closeShopButton.addEventListener("click", function(){
@@ -149,7 +151,24 @@ const shipFiles = [
     "images/ship5.png"
 ];
 
-let selectedShipIndex = 0;
+const shipPrices = [
+    0,
+    250,
+    350,
+    500,
+    700
+];
+
+let ownedShips = JSON.parse(localStorage.getItem("oneMoreTryOwnedShips")) || [0];
+
+let selectedShipIndex = Number(localStorage.getItem("oneMoreTrySelectedShip")) || 0;
+
+if(!ownedShips.includes(0)){
+    ownedShips.push(0);
+}
+if(!ownedShips.includes(selectedShipIndex)){
+    selectedShipIndex =0;
+}
 
 for(let i = 0; i < shipFiles.length; i++){
     const img = new Image();
@@ -446,7 +465,7 @@ function moveCoins(){
             coinsCollected++;
             totalCoins++;
 
-            localStorage.getItem("oneMoreTryCoins", totalCoins);
+            localStorage.setItem("oneMoreTryCoins", totalCoins);
             updateWalletDisplay();
 
             coins.splice(i,1);
@@ -813,9 +832,6 @@ document.addEventListener("keydown", function(event) {
         restartGame();
     }
     if(!gameOver){
-        if(event.key >= "1" && event.key <="5"){
-            selectedShipIndex= Number(event.key)-1;
-        }
         if(event.key === "ArrowLeft" || event.key.toLowerCase()==="a"){
             keys.left = true;
             event.preventDefault();
@@ -859,6 +875,53 @@ function stopRightMovement(){
 function updateWalletDisplay(){
     document.getElementById("walletCoins").textContent = "🪙 "+totalCoins;
     shopCoins.textContent = totalCoins;
+}
+
+function updateShopDisplay(){
+    updateWalletDisplay();
+    shopMessage.textContent = "";
+
+    for(let i = 0; i< shipPrices.length; i++){
+        const button = document.getElementById("shipButton"+i);
+        if(ownedShips.includes(i)){
+            if(selectedShipIndex === i){
+                button.textContent = "EQUIPPED";
+            } else {
+                button.textContent = "EQUIP";
+            }
+        } else {
+            button.textContent = "BUY - "+ shipPrices[i];
+        }
+        const card = button.closest(".ship-card");
+        card.classList.toggle("equipped", selectedShipIndex === i);
+    }
+}
+
+for(let i = 0; i < shipPrices.length; i++){
+    const button = document.getElementById("shipButton"+ i);
+    button.addEventListener("click",function(){
+        if(ownedShips.includes(i)){
+            selectedShipIndex = i;
+            localStorage.setItem("oneMoreTrySelectedShip", selectedShipIndex);
+            updateShopDisplay();
+        } else {
+            if(totalCoins>=shipPrices[i]){
+                totalCoins-=shipPrices[i];
+                ownedShips.push(i);
+
+                localStorage.setItem("oneMoreTryCoins", totalCoins);
+                localStorage.setItem("oneMoreTryOwnedShips", JSON.stringify(ownedShips));
+
+                selectedShipIndex = i;
+
+                localStorage.setItem("oneMoreTrySelectedShip", selectedShipIndex);
+
+                updateShopDisplay();
+            } else {
+                shopMessage.textContent = "Not enough coins! Collect more to unlock this ship.";
+            }
+        }
+    });
 }
 
 leftButton.addEventListener("pointerup", stopLeftMovement);
