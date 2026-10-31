@@ -159,6 +159,14 @@ const shipPrices = [
     700
 ];
 
+const shipNames = [
+    "Neon Runner",
+    "Phantom X",
+    "Inferno",
+    "Golden Fury",
+    "Nova"
+];
+
 let ownedShips = JSON.parse(localStorage.getItem("oneMoreTryOwnedShips")) || [0];
 
 let selectedShipIndex = Number(localStorage.getItem("oneMoreTrySelectedShip")) || 0;
@@ -880,6 +888,8 @@ function updateWalletDisplay(){
 function updateShopDisplay(){
     updateWalletDisplay();
     shopMessage.textContent = "";
+    document.getElementById("selectedShipIndex").src = shipFiles[selectedShipIndex];
+    document.getElementById("selectedShipName").textContent = shipNames[selectedShipIndex];
 
     for(let i = 0; i< shipPrices.length; i++){
         const button = document.getElementById("shipButton"+i);

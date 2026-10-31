@@ -132,6 +132,28 @@ h1{
     cursor: pointer;
 }
 
+#shopButton{
+    padding: 13px 28px;
+    border: 1px solid #ff4d8d;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #191025, #101025);
+    color: #ff75a8;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(255, 77, 141, 0.15);
+    transition: all 0.25s ease;
+}
+
+#shopButton:hover{
+    background: #ff4d8d;
+    color: #090914;
+    box-shadow: 0 0 22px rgba(255, 77, 141, 0.6);
+    transform: translateY(-3px);
+}
+
 #startButton:hover{
     background: #63f7ff;
     color: #090914;
@@ -501,4 +523,27 @@ h1{
     min-height: 20px;
     margin: 8px 0 15px;
     text-shadow: 0 0 8px rgba(255, 91, 138, 0.5);
+}
+
+.selected-ship-preview{
+    margin: 10px auto 25px;
+    padding: 15px;
+    max-width: 300px;
+    background: rgba(99, 247, 255, 0.86);
+    border: 1px solid #63f7ff;
+    border-radius: 15px;
+    box-shadow: 0 0 18px rgba(99, 247, 255, 0.15);
+}
+
+.selected-ship-preview img{
+    width: 130px;
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px #63f7ff);
+}
+
+.selected-ship-preview p{
+    color: #a5a5c7;
+    font-size: 11px;
+    letter-spacing: 2px;
 }
